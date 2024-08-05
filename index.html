@@ -1,0 +1,48 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go WASM Example</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body style="background-color: white !important;">
+    <div>SPX Example</div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 20px;
+      "
+    >
+      <textarea id="input"></textarea>
+      <p id="result"></p>
+    </div>
+    <button onclick="analyseCode()">analyseCode</button>
+    <script src="wasm_exec.js"></script>
+    <script>
+      const go = new Go();
+      WebAssembly.instantiateStreaming(
+        fetch("main.wasm"),
+        go.importObject
+      ).then((result) => {
+        go.run(result.instance);
+      });
+
+      function analyseCode() {
+        const code = document.getElementById("input").value;
+        console.log("startSPXTypesAnalyser");
+        console.log(startSPXTypesAnalyser("test.spx", code));
+      }
+    </script>
+  </body>
+</html>

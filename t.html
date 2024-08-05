@@ -1,0 +1,40 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go WASM Example</title>
+</head>
+<body>
+<h1>Go WASM Example</h1>
+<input type="number" id="input1" value="1">
+<input type="number" id="input2" value="2">
+<button onclick="addNumbers()">Add</button>
+<button onclick="checkGoDataType()">checkGoDataType</button>
+<button onclick="checkGoDataStru()">checkGoDataStru</button>
+<p id="result"></p>
+<script src="wasm_exec.js"></script>
+<script>
+    const go = new Go();
+    WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
+        go.run(result.instance);
+    });
+
+    function addNumbers() {
+        const input1 = document.getElementById("input1").value;
+        const input2 = document.getElementById("input2").value;
+        const result = add(parseInt(input1), parseInt(input2));
+        document.getElementById("result").innerText = "Result: " + result;
+    }
+
+    function checkGoDataType() {
+        console.log(tryGoTypeInt())
+    }
+
+    function checkGoDataStru() {
+        console.log(tryGoTypeStru())
+    }
+</script>
+</body>
+</html>
