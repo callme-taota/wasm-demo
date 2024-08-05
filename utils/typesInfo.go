@@ -2,6 +2,8 @@ package utils
 
 import (
 	"fmt"
+	"go/types"
+
 	"github.com/goplus/gop"
 	"github.com/goplus/gop/ast"
 	"github.com/goplus/gop/parser"
@@ -11,19 +13,12 @@ import (
 	"github.com/goplus/mod/gopmod"
 	"github.com/goplus/mod/modfile"
 	"github.com/goplus/mod/modload"
-	"go/types"
 )
 
 var spxProject = &modfile.Project{
 	Ext: ".gmx", Class: "*Game",
 	Works:    []*modfile.Class{{Ext: ".spx", Class: "Sprite"}},
 	PkgPaths: []string{"github.com/goplus/spx", "math"}}
-
-//func StartSPXTypesAnalyserJS(this js.Value, p []js.Value) interface{} {
-//	fileName := p[0].String()
-//	fileCode := p[1].String()
-//	return StartSPXTypesAnalyser(fileName, fileCode)
-//}
 
 func StartSPXTypesAnalyser(fileName string, fileCode string) interface{} {
 	// init fset
@@ -35,10 +30,30 @@ func StartSPXTypesAnalyser(fileName string, fileCode string) interface{} {
 
 	info, err := spxInfo(mod, fileSet, fileName, fileCode, conf)
 	if err != nil {
-		return err
+		panic(err)
 	}
 	fmt.Println(info)
-	return info
+
+	// convert type info to some valid value
+	defs := ""
+	for k, v := range info.Defs {
+		defs += fmt.Sprintf("k: %v, v: %v\n", k, v)
+	}
+	types := ""
+	for k, v := range info.Types {
+		types += fmt.Sprintf("k: %v, v: %v\n", k, v)
+	}
+	instances := ""
+	for k, v := range info.Instances {
+		instances += fmt.Sprintf("k: %v, v: %v\n", k, v)
+	}
+	result := map[string]interface{}{
+		"Defs":      defs,
+		"Types":     types,
+		"Instances": instances,
+	}
+
+	return result
 }
 
 // init function
