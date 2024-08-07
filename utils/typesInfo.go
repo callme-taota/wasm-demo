@@ -2,14 +2,16 @@ package utils
 
 import (
 	"fmt"
+	"github.com/goplus/gop"
+	"github.com/goplus/igop"
+	"github.com/goplus/igop/gopbuild"
+	"github.com/goplus/mod/env"
 	"go/types"
 
-	"github.com/goplus/gop"
 	"github.com/goplus/gop/ast"
 	"github.com/goplus/gop/parser"
 	"github.com/goplus/gop/token"
 	"github.com/goplus/gop/x/typesutil"
-	"github.com/goplus/mod/env"
 	"github.com/goplus/mod/gopmod"
 	"github.com/goplus/mod/modfile"
 	"github.com/goplus/mod/modload"
@@ -62,7 +64,11 @@ func initSPXMod() *gopmod.Module {
 	var spxMod *gopmod.Module
 	spxMod = gopmod.New(modload.Default)
 	spxMod.Opt.Projects = append(spxMod.Opt.Projects, spxProject)
-	spxMod.ImportClasses()
+	err := spxMod.ImportClasses()
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
 	return spxMod
 }
 
@@ -95,10 +101,17 @@ func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCo
 	if err != nil {
 		return nil, err
 	}
+	//ctx := build.Default()
+	//pkg, err := ctx.ParseFile(fileName, fileCode)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//gofile := pkg.ToAst()
 
 	// init types conf
 	conf := &types.Config{}
-	conf.Importer = gop.NewImporter(nil, &env.Gop{Root: "../..", Version: "1.0"}, fileSet)
+	// replace it!
+	conf.Importer = gop.NewImporter(mod, &env.Gop{Root: "../..", Version: "1.0"}, fileSet)
 	chkOpts := &typesutil.Config{
 		Types:                 types.NewPackage("main", file.Name.Name),
 		Fset:                  fileSet,
@@ -118,5 +131,46 @@ func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCo
 	}
 	check := typesutil.NewChecker(conf, chkOpts, nil, info)
 	err = check.Files(nil, []*ast.File{file})
-	return info, nil
+	//err = check.Files([]*goast.File{file}, nil)
+	return info, err
+}
+
+func StartSPXIGOP(name, code string) (err error) {
+	ctx := igop.NewContext(0)
+	defer func() {
+		r := recover()
+		if r != nil {
+			err = fmt.Errorf("compile %v failed. %v", name, r)
+		}
+	}()
+	c := gopbuild.NewContext(ctx)
+	pkg, err := c.ParseFile(name, code)
+	if err != nil {
+		return err
+	}
+	file := pkg.ToAst()
+	fmt.Println(file.Name)
+	//conf := &types.Config{}
+	//mod := initSPXMod()
+	//conf.Importer = gop.NewImporter(mod, nil, pkg.Fset)
+	//chkOpts := &typesutil.Config{
+	//	Types:                 types.NewPackage("main", file.Name.Name),
+	//	Fset:                  pkg.Fset,
+	//	Mod:                   mod,
+	//	UpdateGoTypesOverload: false,
+	//}
+	//info := &typesutil.Info{
+	//	Types:      make(map[ast.Expr]types.TypeAndValue),
+	//	Defs:       make(map[*ast.Ident]types.Object),
+	//	Uses:       make(map[*ast.Ident]types.Object),
+	//	Implicits:  make(map[ast.Node]types.Object),
+	//	Selections: make(map[*ast.SelectorExpr]*types.Selection),
+	//	Scopes:     make(map[ast.Node]*types.Scope),
+	//	Overloads:  make(map[*ast.Ident][]types.Object),
+	//}
+	//check := typesutil.NewChecker(conf, chkOpts, nil, info)
+	//err = check.Files([]*goast.File{file}, nil)
+	//fmt.Println("--------------------------------------")
+	//fmt.Println(info, err)
+	return
 }
