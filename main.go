@@ -19,7 +19,16 @@ import "wasm-example/utils"
 //}
 
 func main() {
-	//	utils.StartSPXTypesAnalyser("test.spx", `onStart => {
+	utils.StartSPXTypesAnalyser("test.spx", `onStart => {
+	flag := true
+	for flag {
+		onMsg "die", => {
+			flag = false
+		}
+		glide -877, 180, 3
+		setXYpos -240, 180
+	}}`)
+	//	utils.StartSPXIGOP("test.spx", `onStart => {
 	//flag := true
 	//for flag {
 	//	onMsg "die", => {
@@ -28,13 +37,4 @@ func main() {
 	//	glide -877, 180, 3
 	//	setXYpos -240, 180
 	//}}`)
-	utils.StartSPXIGOP("test.spx", `onStart => {
-flag := true
-for flag {
-	onMsg "die", => {
-		flag = false
-	}
-	glide -877, 180, 3
-	setXYpos -240, 180
-}}`)
 }

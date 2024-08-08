@@ -2,10 +2,8 @@ package utils
 
 import (
 	"fmt"
-	"github.com/goplus/gop"
 	"github.com/goplus/igop"
 	"github.com/goplus/igop/gopbuild"
-	"github.com/goplus/mod/env"
 	"go/types"
 
 	"github.com/goplus/gop/ast"
@@ -54,7 +52,7 @@ func StartSPXTypesAnalyser(fileName string, fileCode string) interface{} {
 		"Types":     types,
 		"Instances": instances,
 	}
-
+	fmt.Println(result)
 	return result
 }
 
@@ -109,9 +107,13 @@ func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCo
 	//gofile := pkg.ToAst()
 
 	// init types conf
+	ctx := igop.NewContext(0)
+	c := gopbuild.NewContext(ctx)
+
 	conf := &types.Config{}
 	// replace it!
-	conf.Importer = gop.NewImporter(mod, &env.Gop{Root: "../..", Version: "1.0"}, fileSet)
+	//conf.Importer = gop.NewImporter(mod, &env.Gop{Root: "../..", Version: "1.0"}, fileSet)
+	conf.Importer = c
 	chkOpts := &typesutil.Config{
 		Types:                 types.NewPackage("main", file.Name.Name),
 		Fset:                  fileSet,
