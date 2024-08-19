@@ -1,0 +1,15 @@
+{
+  "costumeSet": {
+    "faceRight": 180,
+    "path": "../../../../res/banana.png",
+    "nx": 58
+  },
+  "costumeIndex": 0,
+  "heading": 90,
+  "isDraggable": false,
+  "rotationStyle": "normal",
+  "size": 1,
+  "visible": true,
+  "x": -100,
+  "y": -21
+}

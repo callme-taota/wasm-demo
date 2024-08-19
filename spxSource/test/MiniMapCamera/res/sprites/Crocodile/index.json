@@ -1,0 +1,20 @@
+{
+  "costumeSet": {
+    "path": "../../../../res/crocodile.png",
+    "nx": 5,
+    "items": [
+      {
+        "namePrefix": "crocodile-",
+        "n": 5
+      }
+    ]
+  },
+  "costumeIndex": 0,
+  "heading": 120,
+  "isDraggable": false,
+  "rotationStyle": "normal",
+  "size": 1,
+  "visible": true,
+  "x": 0,
+  "y": 0
+}

@@ -1,0 +1,16 @@
+{
+  "scenes": [
+    {
+      "name": "backdrop1",
+      "path": "6.png"
+    }
+  ],
+  "zorder": [
+    "Road",
+    "Bird",
+    "Dinosaur",
+    "LargeTree",
+    "SmallTree",
+    "GameOver"
+  ]
+}

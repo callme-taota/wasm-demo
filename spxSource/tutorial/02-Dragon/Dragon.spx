@@ -1,0 +1,16 @@
+var (
+	score int
+)
+
+onStart => {
+	score = 0
+	for {
+		turn rand(-30, 30)
+		step 5
+		if touching("Shark") {
+			score++
+			play chomp, true
+			step -100
+		}
+	}
+}

@@ -1,0 +1,4 @@
+var (
+	Monkey    *Monkey
+	Crocodile *Crocodile
+)

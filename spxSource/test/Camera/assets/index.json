@@ -1,0 +1,19 @@
+{
+  "run": {
+    "width": 640,
+    "height": 480
+  },
+  "scenes": [
+    {
+      "name": "backdrop1",
+      "path": "../../res/bg.jpg"
+    }
+  ],
+  "camera": {
+    "on": "Monkey"
+  },
+  "zorder": [
+    "Monkey",
+    "Crocodile"
+  ]
+}

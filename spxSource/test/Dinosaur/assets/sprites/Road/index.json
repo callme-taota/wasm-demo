@@ -1,0 +1,20 @@
+{
+  "costumeSet": {
+    "path": "../common.png",
+    "rect": {
+      "x": 0,
+      "y": 52,
+      "w": 1000,
+      "h": 17
+    },
+    "nx": 5
+  },
+  "costumeIndex": 0,
+  "heading": 90,
+  "isDraggable": false,
+  "rotationStyle": "normal",
+  "size": 1,
+  "visible": true,
+  "x": 0,
+  "y": -100
+}

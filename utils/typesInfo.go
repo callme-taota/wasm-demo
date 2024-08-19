@@ -1,10 +1,12 @@
 package utils
 
 import (
+	"embed"
 	"fmt"
+	"go/types"
+
 	"github.com/goplus/igop"
 	"github.com/goplus/igop/gopbuild"
-	"go/types"
 
 	"github.com/goplus/gop/ast"
 	"github.com/goplus/gop/parser"
@@ -14,6 +16,9 @@ import (
 	"github.com/goplus/mod/modfile"
 	"github.com/goplus/mod/modload"
 )
+
+//go:embed spxSource
+var staticFiles embed.FS
 
 var spxProject = &modfile.Project{
 	Ext: ".gmx", Class: "*Game",
@@ -30,7 +35,7 @@ func StartSPXTypesAnalyser(fileName string, fileCode string) interface{} {
 
 	info, err := spxInfo(mod, fileSet, fileName, fileCode, conf)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	fmt.Println(info)
 
@@ -81,6 +86,7 @@ func initSPXParserConf() parser.Config {
 			}
 			return
 		},
+		//Mode: parser.Trace,
 	}
 }
 
@@ -108,7 +114,12 @@ func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCo
 
 	// init types conf
 	ctx := igop.NewContext(0)
+	err = ctx.AddImport("github.com/goplus/spx", "./Library/SPXSource")
+	if err != nil {
+		return nil, err
+	}
 	c := gopbuild.NewContext(ctx)
+	//TODO: ig
 
 	conf := &types.Config{}
 	// replace it!

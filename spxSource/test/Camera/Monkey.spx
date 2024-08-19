@@ -1,0 +1,58 @@
+onClick => {
+	animate "clap"
+}
+
+onStart => {
+	println "Monkey onStart"
+	for {
+		if touching("Crocodile") {
+			println "Crocodile touching"
+		}
+		wait 0.04
+	}
+}
+
+onKey KeySpace, => {
+	println "onKeySpace"
+	Camera.on Monkey
+}
+
+onKey KeyEnter, => {
+	println "onKeyEnter"
+	Camera.on "Monkey"
+}
+
+onKey KeyB, => {
+	say "Hello"
+	println "onKeyB"
+	step 10
+}
+onKey KeyC, => {
+	println "onKeyC"
+	turn 10
+}
+
+onKey KeyE, => {
+	println "onKeyE"
+	Camera.setXYpos 0, 0
+}
+
+onKey KeyUp, => {
+	Camera.changeXYpos 0, 100
+}
+
+onKey KeyDown, => {
+	Camera.changeXYpos 0, -100
+}
+
+onKey KeyLeft, => {
+	Camera.changeXYpos -100, 0
+}
+
+onKey KeyRight, => {
+	Camera.changeXYpos 100, 0
+}
+
+onTurning ti => {
+	Crocodile.setHeading ti.NewDir
+}
