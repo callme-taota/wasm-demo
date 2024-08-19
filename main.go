@@ -1,6 +1,15 @@
 package main
 
-import "wasm-example/utils"
+import (
+	"embed"
+	"wasm-example/utils"
+)
+
+//go:embed spx.a
+var spxA embed.FS
+
+//go:embed Library/spxSource
+var spxS embed.FS
 
 //func main() {
 //	c := make(chan struct{})
@@ -27,7 +36,7 @@ func main() {
 		}
 		glide -877, 180, 3
 		setXYpos -240, 180
-	}}`)
+	}}`, spxA, spxS)
 	//	utils.StartSPXIGOP("test.spx", `onStart => {
 	//flag := true
 	//for flag {

@@ -1,0 +1,70 @@
+var (
+	movnum int
+)
+
+onClick => {
+	animate "clap"
+}
+
+onKey KeySpace, => {
+	animate "think"
+}
+
+onKey KeyH, => {
+	if visible {
+		say "Hi"
+		hide
+	} else {
+		show
+	}
+}
+
+onKey KeyUp, => {
+	prevCostume
+	say costumeIndex
+}
+
+onKey KeyDown, => {
+	nextCostume
+	say costumeIndex
+}
+
+onKey [KeyEnter, KeyS], => {
+	movnum = 0
+	step 5
+	step -5
+}
+
+onKey KeyA, => {
+	turnTo 90
+	say heading, 1
+}
+
+onKey KeyB, => {
+	turn 45
+	say heading, 1
+}
+
+onKey KeyC, => {
+	step 100, "faststep"
+	println distanceTo("Crocodile")
+}
+onKey KeyD, => {
+	step -100, "slowstep"
+	println distanceTo("Crocodile")
+}
+onKey KeyE, => {
+	step 100
+	println distanceTo("Crocodile")
+}
+onKey KeyF, => {
+	step 100, "animstep"
+	println distanceTo("Crocodile")
+}
+
+onMoving mi => {
+}
+
+onTurning ti => {
+	Crocodile.SetHeading ti.NewDir
+}

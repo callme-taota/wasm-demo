@@ -1,15 +1,20 @@
 package utils
 
 import (
+	"embed"
 	"fmt"
-	"github.com/goplus/igop"
-	"github.com/goplus/igop/gopbuild"
 	"go/types"
+	"strings"
 
+	"github.com/goplus/gop"
 	"github.com/goplus/gop/ast"
+	"github.com/goplus/gop/format"
 	"github.com/goplus/gop/parser"
 	"github.com/goplus/gop/token"
 	"github.com/goplus/gop/x/typesutil"
+	"github.com/goplus/igop"
+	"github.com/goplus/igop/gopbuild"
+	"github.com/goplus/mod/env"
 	"github.com/goplus/mod/gopmod"
 	"github.com/goplus/mod/modfile"
 	"github.com/goplus/mod/modload"
@@ -20,7 +25,7 @@ var spxProject = &modfile.Project{
 	Works:    []*modfile.Class{{Ext: ".spx", Class: "Sprite"}},
 	PkgPaths: []string{"github.com/goplus/spx", "math"}}
 
-func StartSPXTypesAnalyser(fileName string, fileCode string) interface{} {
+func StartSPXTypesAnalyser(fileName string, fileCode string, spx embed.FS, spxS embed.FS) interface{} {
 	// init fset
 	fileSet := token.NewFileSet()
 	// init spx mode
@@ -28,11 +33,20 @@ func StartSPXTypesAnalyser(fileName string, fileCode string) interface{} {
 	// init conf
 	conf := initSPXParserConf()
 
-	info, err := spxInfo(mod, fileSet, fileName, fileCode, conf)
+	info, err := spxInfo(mod, fileSet, fileName, fileCode, conf, spx, spxS)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(info)
+
+	t := info.Types
+	for expr, _ := range t {
+		ExprName := exprString(fileSet, expr)
+		se := findFromSPXTypes(spx, fileSet, ExprName)
+		if se != nil {
+			fmt.Println("Found spx ", se)
+		}
+	}
 
 	// convert type info to some valid value
 	defs := ""
@@ -93,7 +107,7 @@ func lookupClass(ext string) (c *modfile.Project, ok bool) {
 	return
 }
 
-func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCode string, parseConf parser.Config) (*typesutil.Info, error) {
+func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCode string, parseConf parser.Config, spx embed.FS, spxS embed.FS) (*typesutil.Info, error) {
 	// new parser
 	file, err := parser.ParseEntry(fileSet, fileName, fileCode, parseConf)
 	if err != nil {
@@ -107,15 +121,18 @@ func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCo
 	//gofile := pkg.ToAst()
 
 	// init types conf
+	t := getSPXTypes(spx, fileSet)
 	ctx := igop.NewContext(0)
+	//ctx.AddImport("github.com/goplus/spx", "./spxSource")
 	c := gopbuild.NewContext(ctx)
 
 	conf := &types.Config{}
 	// replace it!
-	//conf.Importer = gop.NewImporter(mod, &env.Gop{Root: "../..", Version: "1.0"}, fileSet)
+	conf.Importer = gop.NewImporter(mod, &env.Gop{Root: "", Version: "1.0"}, fileSet)
 	conf.Importer = c
 	chkOpts := &typesutil.Config{
-		Types:                 types.NewPackage("main", file.Name.Name),
+		//Types:                 types.NewPackage("main", file.Name.Name),
+		Types:                 t,
 		Fset:                  fileSet,
 		Mod:                   mod,
 		UpdateGoTypesOverload: false,
@@ -175,4 +192,10 @@ func StartSPXIGOP(name, code string) (err error) {
 	//fmt.Println("--------------------------------------")
 	//fmt.Println(info, err)
 	return
+}
+
+func exprString(fset *token.FileSet, expr ast.Expr) string {
+	var buf strings.Builder
+	format.Node(&buf, fset, expr)
+	return buf.String()
 }

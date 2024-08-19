@@ -1,0 +1,10 @@
+var (
+	Monkey    *Monkey
+	Crocodile *Crocodile
+	chomp     Sound
+	clap      Sound
+)
+
+func OnLoaded() {
+	println "onLoad"
+}

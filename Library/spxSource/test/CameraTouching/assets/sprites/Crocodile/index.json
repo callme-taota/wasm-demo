@@ -1,0 +1,38 @@
+{
+  "costumeSet": {
+    "bitmapResolution": 2,
+    "path": "../../../../res/crocodile.png",
+    "nx": 5,
+    "items": [
+      {
+        "namePrefix": "crocodile-",
+        "n": 5
+      }
+    ]
+  },
+  "costumeIndex": 0,
+  "fAnimations": {
+    "sink": {
+      "isKeepOnStop": true,
+      "frameFps": 12,
+      "frameFrom": "crocodile-0",
+      "frameTo": "crocodile-4",
+      "onStart":{
+        "play": "chomp"
+      }
+    },
+    "surface": {
+      "isKeepOnStop": true,
+      "frameFps": 12,
+      "frameFrom": "crocodile-4",
+      "frameTo": "crocodile-0"
+    }
+  },
+  "heading": 120,
+  "isDraggable": false,
+  "rotationStyle": "normal",
+  "size": 1,
+  "visible": true,
+  "x": 0,
+  "y": 0
+}

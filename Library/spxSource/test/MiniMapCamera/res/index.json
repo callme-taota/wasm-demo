@@ -1,0 +1,19 @@
+{
+  "backdrops": [
+    {
+      "name": "backdrop1",
+      "path": "img/lake.jpg"
+    }
+  ],
+  "camera": {
+    "on": "Monkey"
+  },
+  "map": {
+    "mode": "repeat"
+  },
+  "stepUnit":20,
+  "zorder": [
+    "Monkey",
+    "Crocodile"
+  ]
+}

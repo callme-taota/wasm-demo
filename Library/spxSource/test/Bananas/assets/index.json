@@ -1,0 +1,46 @@
+{
+  "backdrops": [
+    {
+      "name": "backdrop1",
+      "path": "../../res/lake.jpg"
+    }
+  ],
+  "map": {
+    "width":800,
+    "height":600,
+    "mode": "repeat",
+    "mode_test0": "",
+    "mode_test1": "repeat",
+    "mode_test2": "fillRatio",
+    "mode_test3": "fillCut"
+  },
+  "zorder": [
+    {
+      "type": "sprites",
+      "target": "Bananas",
+      "items": [
+        {
+          "x": -100,
+          "y": -21
+        },
+        {
+          "costumeIndex": 46,
+          "x": 50,
+          "y": -21
+        }
+      ]
+    },
+    {
+      "type": "sprite",
+      "target": "Monkey",
+      "x": 0,
+      "y": 50
+    },
+    {
+      "type": "sprite",
+      "target": "Red",
+      "x":240,
+      "y": 190
+    }
+  ]
+}

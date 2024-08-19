@@ -1,0 +1,13 @@
+{
+  "backdrops": [
+    {
+      "bitmapResolution": 2,
+      "name": "backdrop1",
+      "path": "1.png"
+    }
+  ],
+  "backdropIndex": 0,
+  "zorder": [
+    "Bullet"
+  ]
+}

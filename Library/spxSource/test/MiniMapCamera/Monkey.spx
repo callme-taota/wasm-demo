@@ -1,0 +1,22 @@
+onKey KeyC, => {
+	turn 45
+}
+onKey KeyE, => {
+	step 5
+}
+
+onKey KeyUp, => {
+	Camera.changeXYpos 0, 5
+}
+
+onKey KeyDown, => {
+	Camera.changeXYpos 0, -5
+}
+
+onKey KeyLeft, => {
+	Camera.changeXYpos -5, 0
+}
+
+onKey KeyRight, => {
+	Camera.changeXYpos 0, 5
+}
