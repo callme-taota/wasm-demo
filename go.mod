@@ -8,6 +8,7 @@ require (
 	github.com/goplus/gop v1.2.6
 	github.com/goplus/igop v0.25.0
 	github.com/goplus/mod v0.13.12
+	golang.org/x/tools v0.24.0
 )
 
 require (
@@ -43,7 +44,6 @@ require (
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.23.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
-	golang.org/x/tools v0.24.0 // indirect
 )
 
 // https://github.com/nighca/mod/tree/web
@@ -53,5 +53,5 @@ replace github.com/goplus/mod v0.13.12 => github.com/nighca/mod v0.0.0-202408050
 //replace github.com/goplus/gogen v1.15.2 => github.com/callme-taota/gogen v0.0.0-20240807020116-1193cc00cd75
 //replace github.com/goplus/gogen v1.15.2 => ../../gop/gogen
 
-//replace github.com/goplus/igop v0.25.0 => github.com/callme-taota/igop v0.0.1
-replace github.com/goplus/igop v0.25.0 => ../../gop/igop
+replace github.com/goplus/igop v0.25.0 => github.com/callme-taota/igop v0.0.3
+//replace github.com/goplus/igop v0.25.0 => ../../gop/igop

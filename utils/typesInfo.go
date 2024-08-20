@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"embed"
 	"fmt"
 	"go/types"
 
@@ -16,9 +15,6 @@ import (
 	"github.com/goplus/mod/modfile"
 	"github.com/goplus/mod/modload"
 )
-
-//go:embed spxSource
-var staticFiles embed.FS
 
 var spxProject = &modfile.Project{
 	Ext: ".gmx", Class: "*Game",
@@ -114,10 +110,6 @@ func spxInfo(mod *gopmod.Module, fileSet *token.FileSet, fileName string, fileCo
 
 	// init types conf
 	ctx := igop.NewContext(0)
-	err = ctx.AddImport("github.com/goplus/spx", "./Library/SPXSource")
-	if err != nil {
-		return nil, err
-	}
 	c := gopbuild.NewContext(ctx)
 	//TODO: ig
 
